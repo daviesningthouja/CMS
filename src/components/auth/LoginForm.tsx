@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, type SubmitEvent } from "react";
+import { useState, type FormEvent } from "react";
 
-import { Button } from "../ui/Button/button";
+import { Button } from "@/components/ui/Button/button"; // Standardized the import path alias
 import { Input } from "@/components/ui/Input/input";
-import { login } from "@/lib/api";
-import { saveAuth } from "@/lib/auth";
+import { loginAction } from "@/lib/auth-action";
 import { useRouter } from "next/navigation";
 
 export function LoginForm() {
@@ -16,40 +15,28 @@ export function LoginForm() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  async function handlesubmit(event: SubmitEvent<HTMLFormElement>) {
+  async function handlesubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("FORM SUBMITTED");
-
     setError("");
     setIsLoading(true);
 
     try {
-      const response = await login({
+      const response = await loginAction({
         email,
         password,
       });
 
-      if(response){
-        saveAuth(
-          response.data.jwt,
-          {
-            id: response.data.id,
-            email: response.data.email,
-            full_name: response.data.full_name,
-            //phone: response.data.phone,
-            role: response.data.role,
-          }
-        )
+      if (response.success) {
+        router.push("/dashboard");
+      } else {
+        // Fallback error if the action returns success: false without throwing
+        setError("Invalid email or password.");
       }
-
-      console.log("Login successful:", response);
-
-      router.push("/dashboard");
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError("Something went wrong...");
+        setError("Something went wrong securely connecting to the server.");
       }
     } finally {
       setIsLoading(false);
@@ -57,50 +44,54 @@ export function LoginForm() {
   }
 
   return (
-    <form 
-        onSubmit={handlesubmit}
-        className="flex w-full flex-col gap-5"
-         
-    >
+    <form onSubmit={handlesubmit} className="flex w-full flex-col space-y-5">
+      <div className="space-y-4">
         <Input
           id="email"
-          label="email"
+          label="Email Address"
           type="email"
-          placeholder="you@example.com"
+          placeholder="manager@cafe.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
           required
         />
-        <label htmlFor="password"></label>
-        <Input
+        
+        <div className="space-y-1">
+          <Input
             id="password"
-            label="password"
+            label="Password"
             type="password"
-            placeholder="Enter your password"
+            placeholder="••••••••"
             value={password}
-            onChange={(event) =>
-            setPassword(event.target.value)
-            }
+            onChange={(event) => setPassword(event.target.value)}
             disabled={isLoading}
             required
-        >
-        </Input>
+          />
+          <div className="flex justify-end">
+            <a 
+              href="#" 
+              className="text-xs font-medium text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+            >
+              Forgot password?
+            </a>
+          </div>
+        </div>
+      </div>
 
-        {error && (
-            <p className="rounded-app bg-danger/10 px-3 py-2 text-sm text-danger">
-                {error}
-            </p>
-        )}
+      {error && (
+        <div className="rounded-app border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">
+          {error}
+        </div>
+      )}
 
-        <Button
-            type="submit"
-            disabled={isLoading}
-            className="w-full"
-
-        >
-            {isLoading ? "Logging in...." : "Login"}
-        </Button>
+      <Button 
+        type="submit" 
+        disabled={isLoading} 
+        className="w-full pt-2"
+      >
+        {isLoading ? "Authenticating..." : "Sign In"}
+      </Button>
     </form>
   );
 }

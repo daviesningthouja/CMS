@@ -17,7 +17,7 @@ export interface User {
     role: string;
 }
 
-export interface loginResponse_v1 {
+export interface LoginResponse {
     success: boolean;
     message: string;
     data: User & {
@@ -25,7 +25,7 @@ export interface loginResponse_v1 {
     };
 }
 
-export type LoginResponseTest = loginResponse_v1;
+export type LoginResponseTest = LoginResponse;
 
 export interface LoginResponse_v0 {
     success: boolean;

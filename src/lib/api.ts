@@ -1,21 +1,23 @@
 import type {
   LoginRequest,
-  loginResponse_v1,
+  LoginResponse,
 } from "@/types/auth";
-import {api} from "@/utils/api"
 
+import { api } from "@/utils/api";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL_LOCAL || process.env.API_URL_NETWORK;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-console.log(API_URL)
-
-if(!API_URL){
-  throw new Error("API_URL_LOCAL is not defined in the environment variables.");
+if (!API_URL) {
+  throw new Error(
+    "NEXT_PUBLIC_API_URL is not defined"
+  );
 }
 
 export async function login(
   data: LoginRequest
-): Promise<loginResponse_v1>{
-  return await api.post(`${API_URL}/api/login`,data);
+): Promise<LoginResponse> {
+  return api.post<LoginResponse>(
+    `${API_URL}/api/login`,
+    data
+  );
 }
-
