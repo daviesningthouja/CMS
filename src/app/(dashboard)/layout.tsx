@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { Header } from "@/components/dashboard/Header";
 
+import type { User } from "@/types/auth";
+
 export default async function DashboardLayout({
   children,
 }: Readonly<{
@@ -23,10 +25,10 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  let user;
+  let user: User;
 
   try {
-    user = JSON.parse(userCookie);
+    user = JSON.parse(userCookie) as User;
   } catch {
     redirect("/login");
   }
@@ -38,7 +40,7 @@ export default async function DashboardLayout({
       <div className="flex min-w-0 flex-1 flex-col">
         <Header user={user} />
 
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 md:p-6">
           {children}
         </main>
       </div>

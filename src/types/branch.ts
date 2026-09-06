@@ -1,0 +1,14 @@
+export interface Branch {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  is_active: boolean;
+}
+
+export interface CreateBranchRequest {
+  name: string;
+  address: string;
+  phone: string;
+  is_active: boolean;
+}

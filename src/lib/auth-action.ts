@@ -74,3 +74,16 @@ export async function logoutAction() {
   
   return { success: true, message: "Logged out successfully" };
 }
+
+export async function changePassword(
+  data: {
+    email: string;
+    current_password: string;
+    new_password: string;
+  }
+) {
+  return api.post(
+    `${BACKEND_API_URL}/api/ChangePassword`,
+    data
+  );
+}

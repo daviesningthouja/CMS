@@ -1,3 +1,5 @@
+import type {User} from "@/types/auth"
+
 export type UserRole =
   | "admin"
   | "manager"
@@ -51,3 +53,15 @@ export const navigationItems: NavigationItem[] = [
     roles: ["admin"],
   },
 ];
+
+export function getNavigationForUser(user: User) {
+  return navigationItems.filter((item) => {
+    if (!item.roles) {
+      return true;
+    }
+
+    return item.roles.includes(
+      user.role as UserRole
+    );
+  });
+}
