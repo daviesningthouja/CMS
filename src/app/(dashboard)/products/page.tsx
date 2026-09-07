@@ -1,17 +1,15 @@
 import Link from "next/link";
 
-import { serverApi } from "@/lib/server-api";
+import { ProductService } from "@/lib/api";
 
-import type { ApiResponse } from "@/types/common";
-import type { Product } from "@/types/product";
+// import type { ApiResponse } from "@/types/common";
+// import type { Product } from "@/types/product";
 
 import { ProductTable } from "@/components/products/ProductTable";
 
 export default async function ProductsPage() {
-  const response =
-    await serverApi.get<ApiResponse<Product[]>>(
-      "/api/products"
-    );
+  const response = await ProductService.getAll();
+
 
   const products = response.data;
 

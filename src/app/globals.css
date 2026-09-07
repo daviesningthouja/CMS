@@ -5,9 +5,13 @@
   --foreground: #171717;
 
   --primary: #7c3aed;
+  --primary-home: #b45309;
+
   --primary-foreground: #ffffff;
 
   --secondary: #f4f4f5;
+  --secondary-home: #fef3c7;
+
   --secondary-foreground: #18181b;
 
   --muted: #f4f4f5;
@@ -29,9 +33,13 @@
   --color-foreground: var(--foreground);
 
   --color-primary: var(--primary);
+  --color-primary-home: var(--primary-home);
+
   --color-primary-foreground: var(--primary-foreground);
 
   --color-secondary: var(--secondary);
+  --color-secondary-home: var(--secondary-home);
+
   --color-secondary-foreground: var(--secondary-foreground);
 
   --color-muted: var(--muted);
