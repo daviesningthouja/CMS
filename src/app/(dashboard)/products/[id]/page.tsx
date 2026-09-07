@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { ProductService } from "@/lib/api";
+import { BranchService, CategoryService, ProductService } from "@/lib/api";
 
 
 interface ProductPageProps {
@@ -30,10 +30,21 @@ export default async function ProductPage({
     );
   }
 
-  const response =  await ProductService.getById(productId);
+  const productResponse =
+  await ProductService.getById(productId);
 
-  const product = response.data;
+  const product = productResponse.data;
 
+  const [branchResponse, categoryResponse] =
+    await Promise.all([
+      BranchService.getById(product.branch_id),
+      product.category_id !== null 
+        ? CategoryService.getById(product.category_id)
+        : Promise.resolve(null),
+    ]);
+
+  const branch = branchResponse?.data;
+  const category = categoryResponse?.data;
   return (
     <div>
       {/* Header */}
@@ -75,15 +86,15 @@ export default async function ProductPage({
           />
 
           <ProductDetail
-            label="Branch ID"
-            value={String(product.branch_id)}
+            label="Branch"
+            value={String(branch?.name || "—")}
           />
 
           <ProductDetail
-            label="Category ID"
+            label="Category"
             value={
               product.category_id !== null
-                ? String(product.category_id)
+                ? String(category?.name)
                 : "—"
             }
           />

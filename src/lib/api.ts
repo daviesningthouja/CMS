@@ -77,7 +77,7 @@ export const BranchService = {
     ),
 
   getById: (id: number) =>
-    serverApi.get<ApiResponse<Branch[]>>(
+    serverApi.get<ApiResponse<Branch>>(
       `/api/branches/${id}`
     ),
 
