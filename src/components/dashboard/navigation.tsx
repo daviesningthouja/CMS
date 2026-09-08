@@ -1,9 +1,6 @@
-import type {User} from "@/types/auth"
+import type { User } from "@/types/auth";
 
-export type UserRole =
-  | "admin"
-  | "manager"
-  | "staff";
+export type UserRole = "admin" | "manager" | "staff";
 
 export interface NavigationItem {
   label: string;
@@ -26,6 +23,11 @@ export const navigationItems: NavigationItem[] = [
   {
     label: "Categories",
     href: "/categories",
+    roles: ["admin", "manager"],
+  },
+  {
+    label: "Branches",
+    href: "/branches",
     roles: ["admin", "manager"],
   },
 
@@ -60,8 +62,6 @@ export function getNavigationForUser(user: User) {
       return true;
     }
 
-    return item.roles.includes(
-      user.role as UserRole
-    );
+    return item.roles.includes(user.role as UserRole);
   });
 }
