@@ -54,7 +54,7 @@ export function CategoryTable({
 
               <TableCell>
                 <Link
-                  href={`/category/${category.id}`}
+                  href={`/categories/${category.id}`}
                   className="text-primary hover:underline"
                 >
                   View
