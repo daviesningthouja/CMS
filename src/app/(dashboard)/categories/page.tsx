@@ -18,7 +18,7 @@ export default async function CategoriesPage(){
         </div>
 
         <Link
-          href="/branches/new"
+          href="/categories/new"
           className="rounded-app bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
         >
           + Create Categories

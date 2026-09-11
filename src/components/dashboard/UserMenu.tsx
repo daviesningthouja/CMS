@@ -5,14 +5,13 @@ import { useRouter } from "next/navigation";
 
 import type { User } from "@/types/auth";
 import { logoutAction } from "@/lib/auth-action";
+import Link from "next/link";
 
 interface UserMenuProps {
   user: User;
 }
 
-export function UserMenu({
-  user,
-}: UserMenuProps) {
+export function UserMenu({ user }: UserMenuProps) {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -36,22 +35,29 @@ export function UserMenu({
         </div>
 
         <div className="hidden text-left sm:block">
-          <p className="text-sm font-medium">
-            {user.full_name}
-          </p>
+          <p className="text-sm font-medium">{user.full_name}</p>
 
-          <p className="text-xs text-muted-foreground">
-            {user.role}
-          </p>
+          <p className="text-xs text-muted-foreground">{user.role}</p>
         </div>
 
-        <span className="text-xs">
-          ▼
-        </span>
+        <span className="text-xs">▼</span>
       </button>
 
       {open && (
         <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-app border bg-background p-1 shadow-lg">
+          <Link
+            href="/settings"
+            className="block rounded-md px-3 py-2 text-sm hover:bg-muted"
+          >
+            Settings
+          </Link>
+
+          <Link
+            href="/change-password"
+            className="block rounded-md px-3 py-2 text-sm hover:bg-muted"
+          >
+            Change Password
+          </Link>
           <button
             type="button"
             onClick={handleLogout}
